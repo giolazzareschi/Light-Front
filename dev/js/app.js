@@ -79,19 +79,22 @@ var KClass, Appcore, Modal, BaseTpl, LzButton, Super, Workspace, LzHeader;
 	Modal = {
 		extends : [BaseTpl],
 		tplname : 'modal',
-		create : function(){
+		create : function( params ){
 			Super({
 				fn : 'create',
 				context : this,
 				arguments : {
-					'title' : 'teste'
+					'title' : params.title,
+					'content' : params.content
 				}
 			});
 			var btnsave = KClass.create( LzButton );
 			btnsave.create({
-				cssClass : 'btn-modal-save',
+				'label' : 'Aceitar',
+				'cssClass' : 'btn-modal-save',
 				onClick : function(){
-					console.log( this );
+					var modal = document.querySelector('.mdls-modal');
+					modal.parentNode.removeChild( modal );
 				}
 			});
 			this.dom().querySelector('.footer').appendChild( btnsave.dom() );
@@ -104,10 +107,10 @@ var KClass, Appcore, Modal, BaseTpl, LzButton, Super, Workspace, LzHeader;
 			Super({
 				fn : 'create',
 				context : this,
-				arguments : [{
+				arguments : {
 					'css-class' : params.cssClass,
-					'label' : 'Save'
-				},{}]
+					'label' : params.label
+				}
 			});
 			this.dom().addEventListener('click',params.onClick,false);
 		}
@@ -145,14 +148,22 @@ var KClass, Appcore, Modal, BaseTpl, LzButton, Super, Workspace, LzHeader;
 				}
 			});
 
+			var modal = KClass.create( Modal );
+			modal.create({
+				title : 'Novo pedido',
+				content : '<div>TESTE</div>'
+			});
+
 			this.dom().querySelector('div[appview] .appheader').appendChild( header.dom() );
+
+			this.append( modal.dom() );
 
 			var ch = this.dom().children;
 			while( ch.length )
 				Appcore.stage().appendChild( ch[0] );
 		},
 		append : function( dom ){
-			this.dom().querySelector('div[appview]').appendChild( dom );
+			this.dom().querySelector('div[appview] .applist').appendChild( dom );
 		}
 	};
 })(window);

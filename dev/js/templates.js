@@ -4,7 +4,7 @@ this["MDL"]["templates"]["button"] = Handlebars.template({"compiler":[6,">= 2.0.
     var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
 
   return "<div class=\"mdls-button "
-    + alias3(((helper = (helper = helpers['css-class'] || (depth0 != null ? depth0['css-class'] : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"css-class","hash":{},"data":data}) : helper)))
+    + alias3(((helper = (helper = helpers.cssClass || (depth0 != null ? depth0.cssClass : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"cssClass","hash":{},"data":data}) : helper)))
     + "\">"
     + alias3(((helper = (helper = helpers.label || (depth0 != null ? depth0.label : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"label","hash":{},"data":data}) : helper)))
     + "</div>";
@@ -38,11 +38,13 @@ this["MDL"]["templates"]["message"] = Handlebars.template({"compiler":[6,">= 2.0
     + "\r\n</div>";
 },"useData":true});
 this["MDL"]["templates"]["modal"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-    var helper;
+    var stack1, helper, alias1=helpers.helperMissing, alias2="function";
 
   return "<div class=\"mdls-modal\">\r\n	<div class=\"header\">\r\n		<div class=\"displaytable\">\r\n			<div class=\"displaytablecell title\">"
-    + this.escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"title","hash":{},"data":data}) : helper)))
-    + "</div>\r\n			<div class=\"displaytablecell btnclose\">X</div>\r\n		</div>\r\n	</div>\r\n	<div class=\"content\">\r\n		teste\r\n	</div>\r\n	<div class=\"footer\"></div>\r\n</div>";
+    + this.escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"title","hash":{},"data":data}) : helper)))
+    + "</div>\r\n			<div class=\"displaytablecell btnclose\">X</div>\r\n		</div>\r\n	</div>\r\n	<div class=\"content\">\r\n		"
+    + ((stack1 = ((helper = (helper = helpers.content || (depth0 != null ? depth0.content : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"content","hash":{},"data":data}) : helper))) != null ? stack1 : "")
+    + "\r\n	</div>\r\n	<div class=\"footer\"></div>\r\n</div>";
 },"useData":true});
 this["MDL"]["templates"]["workspace"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
     return "<div>\r\n	<div appview id=\"chatview\">\r\n		<div class=\"appheader\"></div>\r\n		<div class=\"applist\"></div>\r\n	</div>\r\n</div>";
