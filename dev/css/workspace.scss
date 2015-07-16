@@ -11,26 +11,6 @@ div[appview]{
 	overflow-y: overlay;
 
 	&#chatview{
-		padding: 10px;
-	}
-}
-div[appchat]{
-	display: block;
-	height: 60px;
-	-webkit-box-flex: 1 0 60px;      
-	-moz-box-flex: 1 0 60px;         
-	-webkit-flex: 1 0 60px;          
-	-ms-flex: 1 0 60px;              
-	flex: 1 0 60px;
-	background-color: $green;
-	vertical-align: middle;
-	padding: 15px 10px;
-
-	input{
-		padding: 5px;
-		border: none;
-		border-radius: 4px;
-		width: 100%;
-		box-shadow: 0px 2px 2px -1px $darkgreen;
+		padding: 0px;
 	}
 }

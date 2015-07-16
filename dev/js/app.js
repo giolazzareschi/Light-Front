@@ -1,6 +1,6 @@
 'use strict';
 
-var KClass, Appcore, Modal, BaseTpl, LzButton, Super, Memo, Workspace, BaseMessage, Message;
+var KClass, Appcore, Modal, BaseTpl, LzButton, Super, Workspace, LzHeader;
 ;(function(w){
 	function Super( params ){		
 		if( params.context.super !== undefined ){
@@ -66,22 +66,14 @@ var KClass, Appcore, Modal, BaseTpl, LzButton, Super, Memo, Workspace, BaseMessa
 	};
 	BaseTpl = {
 		tpl : null,
-		dom : null,
+		_dom : null,
 		create : function( params ){			
 			this.tpl = MDL.templates[ this.tplname ]( params );
-			this.dom = document.createElement('div');
-			this.dom.innerHTML = this.tpl;
+			this._dom = document.createElement('div');
+			this._dom.innerHTML = this.tpl;
 		},
-		show : function(){
-			var ch = this.dom.children;
-			while( ch.length )
-				Appcore.stage().appendChild( ch[ 0 ] );
-		}
-	};
-	Memo = {
-		created_at : null,
-		create : function(){
-			this.created_at = +(new Date);
+		dom : function(){
+			return this._dom.children[ 0 ];
 		}
 	};
 	Modal = {
@@ -102,12 +94,12 @@ var KClass, Appcore, Modal, BaseTpl, LzButton, Super, Memo, Workspace, BaseMessa
 					console.log( this );
 				}
 			});
-			this.dom.querySelector('.footer').appendChild( btnsave.dom );
+			this.dom().querySelector('.footer').appendChild( btnsave.dom() );
 		}
 	};
 	LzButton = {
 		tplname : 'button',
-		extends : [BaseTpl, Memo],
+		extends : [BaseTpl],
 		create : function( params ){
 			Super({
 				fn : 'create',
@@ -117,7 +109,18 @@ var KClass, Appcore, Modal, BaseTpl, LzButton, Super, Memo, Workspace, BaseMessa
 					'label' : 'Save'
 				},{}]
 			});
-			this.dom.addEventListener('click',params.onClick,false);
+			this.dom().addEventListener('click',params.onClick,false);
+		}
+	};
+	LzHeader = {
+		tplname : 'header',
+		extends : [BaseTpl],
+		create : function( params ){
+			Super({
+				fn : 'create',
+				context : this,
+				arguments : params.tplParams
+			});
 		}
 	};
 	Workspace = {
@@ -132,38 +135,26 @@ var KClass, Appcore, Modal, BaseTpl, LzButton, Super, Memo, Workspace, BaseMessa
 				}
 			});
 
-			this.show(this);
-		},
-		appendNewMessage : function( new_message ){			
-			var ch = new_message.dom.children;
-			var last = Appcore.chatStage().children[ 0 ];
-			while( ch.length )
-				Appcore.chatStage().insertBefore( ch[ 0 ], last );
-		}
-	};
-	BaseMessage = {
-		datetime : null,
-		device : null,
-		user : null,
-		create : function(){			
-			this.datetime = +(new Date);
-		}
-	};
-	Message = {
-		tplname : 'message',
-		extends : [BaseMessage,BaseTpl],
-		create : function(){
-			var me = this;		
-			Super({
-				fn : 'create',
-				context : this,
-				arguments : [{},{
-					'datetime' : +(new Date)
-				}]
+			var header = KClass.create( LzHeader );
+			header.create({
+				tplParams : {
+					'cssClass' : 'app-main-header',
+					'title' : 'iGo Pizzas',
+					'firstButtonClass' : 'app-btn-menu icon-menu',
+					'lastButtonClass' : 'app-btn-search icon-doc-text'
+				}
 			});
-			Workspace.appendNewMessage( this );
+
+			this.dom().querySelector('div[appview] .appheader').appendChild( header.dom() );
+
+			var ch = this.dom().children;
+			while( ch.length )
+				Appcore.stage().appendChild( ch[0] );
+		},
+		append : function( dom ){
+			this.dom().querySelector('div[appview]').appendChild( dom );
 		}
-	}
+	};
 })(window);
 
 document.onreadystatechange = function(){

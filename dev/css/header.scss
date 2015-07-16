@@ -1,0 +1,27 @@
+@import "_global.scss";
+
+.lz-header{
+	position: relative;
+	display: block;
+	padding: 0px;
+	background-color: $livered;
+	box-shadow: 0px 0px 2px 0px #000;
+
+	.app-btn-menu, .lz-header-title, .app-btn-search{
+		padding: 15px;
+		background-color: $livered;
+		color: $white;
+	}
+
+	.app-btn-menu, .app-btn-search{
+		font-size: 14px;
+		font-weight: 800;
+		width: 15%;
+	}
+
+	.lz-header-title{
+		font-weight: 400;
+		font-size: 14px;
+		width: 70%;
+	}
+}
