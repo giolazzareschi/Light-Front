@@ -1,8 +1,8 @@
 'use strict';
 
-var KClass, Appcore, Modal, BaseTpl, LzButton, Super, Workspace, LzHeader;
+var KClass, BaseTpl, Super;
 ;(function(w){
-	function Super( params ){		
+	Super = function( params ){
 		if( params.context.super !== undefined ){
 			var sper = params.context.super[ params.fn ];
 			if( sper.length === 1 ){
@@ -52,124 +52,21 @@ var KClass, Appcore, Modal, BaseTpl, LzButton, Super, Workspace, LzHeader;
 			return p;
 		}
 	};
-	Appcore = {
-		stage : function(){
-			return document.querySelector('div[appstage]');
-		},
-		init : function(){			
-			var ws = KClass.create( Workspace );
-			ws.create();
-		},
-		chatStage : function(){
-			return document.querySelector('#chatview');
-		}
-	};
 	BaseTpl = {
 		tpl : null,
 		_dom : null,
 		create : function( params ){			
-			this.tpl = MDL.templates[ this.tplname ]( params );
+			this.tpl = HandlebarsTemplates[ this.tplname ]( params );
 			this._dom = document.createElement('div');
 			this._dom.innerHTML = this.tpl;
 		},
 		dom : function(){
-			return this._dom.children[ 0 ];
-		}
-	};
-	Modal = {
-		extends : [BaseTpl],
-		tplname : 'modal',
-		create : function( params ){
-			Super({
-				fn : 'create',
-				context : this,
-				arguments : {
-					'title' : params.title,
-					'content' : params.content
-				}
-			});
-			var btnsave = KClass.create( LzButton );
-			btnsave.create({
-				'label' : 'Aceitar',
-				'cssClass' : 'btn-modal-save',
-				onClick : function(){
-					var modal = document.querySelector('.mdls-modal');
-					modal.parentNode.removeChild( modal );
-				}
-			});
-			this.dom().querySelector('.footer').appendChild( btnsave.dom() );
-		}
-	};
-	LzButton = {
-		tplname : 'button',
-		extends : [BaseTpl],
-		create : function( params ){
-			Super({
-				fn : 'create',
-				context : this,
-				arguments : {
-					'css-class' : params.cssClass,
-					'label' : params.label
-				}
-			});
-			this.dom().addEventListener('click',params.onClick,false);
-		}
-	};
-	LzHeader = {
-		tplname : 'header',
-		extends : [BaseTpl],
-		create : function( params ){
-			Super({
-				fn : 'create',
-				context : this,
-				arguments : params.tplParams
-			});
-		}
-	};
-	Workspace = {
-		tplname : 'workspace',
-		extends : [BaseTpl],
-		create : function(){
-			Super({
-				fn : 'create',
-				context : this,
-				arguments : {
-					'welcome' : 'Bem-vindo'
-				}
-			});
-
-			var header = KClass.create( LzHeader );
-			header.create({
-				tplParams : {
-					'cssClass' : 'app-main-header',
-					'title' : 'iGo Pizzas',
-					'firstButtonClass' : 'app-btn-menu icon-menu',
-					'lastButtonClass' : 'app-btn-search icon-doc-text'
-				}
-			});
-
-			var modal = KClass.create( Modal );
-			modal.create({
-				title : 'Novo pedido',
-				content : '<div>TESTE</div>'
-			});
-
-			this.dom().querySelector('div[appview] .appheader').appendChild( header.dom() );
-
-			this.append( modal.dom() );
-
-			var ch = this.dom().children;
-			while( ch.length )
-				Appcore.stage().appendChild( ch[0] );
+			var clone = this._dom.children[0].cloneNode(true);
+			return clone;
 		},
-		append : function( dom ){
-			this.dom().querySelector('div[appview] .applist').appendChild( dom );
+		listener : function(type, fn, bubbles){			
+			this._dom.addEventListener(type, fn.bind(this), bubbles);
+			return this;
 		}
 	};
 })(window);
-
-document.onreadystatechange = function(){
-	if(this.readyState == 'complete'){
-		Appcore.init();
-	}
-};
