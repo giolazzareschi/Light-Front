@@ -12,13 +12,12 @@ var watch = require('gulp-watch');
 gulp.task('default',['sass','tpl','js']);
 
 gulp.task('sass', function () {
-    return sass('dev/sass')
-        .on('error', function (err) {
-            console.error('Error!', err.message);
-        })
-    	.pipe(minifyCss({compatibility: 'ie8'}))
+    return gulp.src(['sass/*.scss', 'components/**/*.scss'])
     	.pipe(concat('app.css'))
-        .pipe(gulp.dest('dist/css'));
+        .pipe(gulp.dest('dev/sass'))
+        .pipe(sass('dev/sass/app.css'))
+        .pipe(minifyCss({compatibility: 'ie8'}))
+        .pipe(gulp.dest('dist/css/'));
 });
 
 gulp.task('tpl', function(){
